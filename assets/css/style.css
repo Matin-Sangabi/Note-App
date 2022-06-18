@@ -85,6 +85,13 @@ body{
 .note-list-item-selected .note-updated{
     color: var(--bg-gray-700);
 }
+.note-list-item-selected .fa-trash{
+    color: var(--bg-gray-700);
+}
+
+.note-list-item-selected .fa-trash:hover{
+    color: var(--bg-rose-500);
+}
 .note-title{
     display: flex;
     justify-content: space-between;
@@ -92,7 +99,7 @@ body{
     font-weight: bold;
 }
 
-.note-title .fa-trash{
+.fa-trash{
     font-size: 14px;
     color: var(--bg-gray-100);
 }
