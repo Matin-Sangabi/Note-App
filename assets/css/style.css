@@ -86,8 +86,18 @@ body{
     color: var(--bg-gray-700);
 }
 .note-title{
+    display: flex;
+    justify-content: space-between;
     font-size: 18px;
     font-weight: bold;
+}
+
+.note-title .fa-trash{
+    font-size: 14px;
+    color: var(--bg-gray-100);
+}
+.fa-trash:hover{
+    color: var(--bg-violet-400);
 }
 .note-body{
     font-size: 16px;

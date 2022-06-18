@@ -46,6 +46,9 @@ export default class NoteView{
             <div class="note-title">
                 ${title.substring(0, MAX_TITLE_LENGTH)}
                 ${title.length > MAX_TITLE_LENGTH ? "..." : ""}
+                <span>
+                    <i class="fa fa-trash"></i>
+                </span>
             </div>
             <div class="note-body">
                 ${body.substring(0, MAX_BODY_LENGTH)}
