@@ -1,0 +1,108 @@
+@import url(./fontiran.css);
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: IRANSansX;
+}
+
+
+:root{
+    /* tailwind color */
+    --bg-gray-800:#1f2937;
+    --bg-gray-700:#374151;
+    --bg-gray-500:#6b7280;
+    --bg-gray-400:#9ca3af;
+    --bg-gray-300:#d1d5db;
+    --bg-gray-600:#4b5563;
+    --bg-gray-100:#f3f4f6;
+    --bg-slate-50:#f1f5f9;
+    --bg-rose-500:#e11d48;
+    --bg-Violet-700:#6d28d9;
+    --bg-violet-500:#8b5cf6;
+    --bg-violet-400:#a78bfa;
+}
+
+body{
+    background-color: var(--bg-slate-50);
+    user-select: none;
+}
+
+.main-layout{
+    display: flex;
+}
+
+/*----------sidebar--------------*/
+
+.sidebar{
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(to bottom right ,  var(--bg-gray-500) , var(--bg-gray-600) , var(--bg-gray-700) );
+    border-top-left-radius: 100px;
+    padding: 1rem;
+    color: var(--bg-gray-100);
+    position: sticky;
+    top:0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-logo{
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 30px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    border-bottom: 2px solid var(--bg-gray-400);
+}
+
+.note-items{
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.note-list-item{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.3rem;
+    color: var(--bg-gray-100);
+    cursor: pointer;
+}
+
+.note-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+.note-body{
+    font-size: 16px;
+    font-weight: normal;
+}
+.note-updated{
+    font-size: 14px;
+    color: var(--bg-gray-300);
+}
+
+.add-note{
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    outline: 1px solid var(--bg-violet-400);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: var(--bg-violet-400);
+    color: var(--bg-slate-50);
+    transition:all 0.5s ease-in-out ;
+}
+
+.add-note:hover ,.add-note:focus{
+    border: none;
+    outline: 2px solid var(--bg-violet-400);
+    outline-offset: 3px;
+} 
