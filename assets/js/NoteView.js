@@ -96,16 +96,19 @@ export default class NoteView{
     }
 
     updateActiveNote(note){
-        this.root.querySelector(".insert-note-title").value = note.title;
-        this.root.querySelector(".insert-note-body").value = note.body;
+        if(note){
+            this.root.querySelector(".insert-note-title").value = note.title;
+            this.root.querySelector(".insert-note-body").value = note.body;
+            this.root.querySelectorAll(".note-list-item").forEach((item) => {
+              item.classList.remove("note-list-item-selected");
+            });
 
-        this.root.querySelectorAll(".note-list-item").forEach(item =>{
-            item.classList.remove("note-list-item-selected");
-        });
+            this.root
+              .querySelector(`.note-list-item[data-note = "${note.id}"]`)
+              .classList.add("note-list-item-selected");
+        }
 
-        this.root.querySelector(
-          `.note-list-item[data-note = "${note.id}"]`
-        ).classList.add("note-list-item-selected");
+        
     }
 
     updateVisibilityNote(visible){
