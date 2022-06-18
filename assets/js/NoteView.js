@@ -38,6 +38,8 @@ export default class NoteView{
                 this.onNoteEdit(newTitle , newBody);
             });
         });
+
+        this.updateVisibilityNote(false);
     }
 
     _createNoteElement(id , title , body , updated){
@@ -98,11 +100,15 @@ export default class NoteView{
         this.root.querySelector(".insert-note-body").value = note.body;
 
         this.root.querySelectorAll(".note-list-item").forEach(item =>{
-            item.classList.remove("note-list-item-selected")
+            item.classList.remove("note-list-item-selected");
         });
 
         this.root.querySelector(
           `.note-list-item[data-note = "${note.id}"]`
         ).classList.add("note-list-item-selected");
+    }
+
+    updateVisibilityNote(visible){
+        this.root.querySelector('.main-content').style.visibility = visible ? "visible" : "hidden";
     }
 }
