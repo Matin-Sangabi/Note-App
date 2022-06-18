@@ -3,9 +3,11 @@ export default class NoteView{
         this.root = root;
 
         //get handlres
-        const {onNoteAdd , onNoteEdit} = handlres;
+        const {onNoteAdd , onNoteEdit , onNoteSelect , onNoteDelete} = handlres;
         this.onNoteAdd = onNoteAdd;
         this.onNoteEdit = onNoteEdit;
+        this.onNoteSelect = onNoteSelect;
+        this.onNoteDelete = onNoteDelete;
 
         root.innerHTML = `<div class="sidebar">
             <div class="sidebar-logo">
@@ -42,12 +44,12 @@ export default class NoteView{
         const MAX_TITLE_LENGTH = 15;
         const MAX_BODY_LENGTH = 40;
         return `
-        <li class="note-list-item note" data-note = "${id}">
+        <li class="note-list-item" data-note = "${id}">
             <div class="note-title">
                 ${title.substring(0, MAX_TITLE_LENGTH)}
                 ${title.length > MAX_TITLE_LENGTH ? "..." : ""}
                 <span>
-                    <i class="fa fa-trash"></i>
+                    <i class="fa fa-trash" data-note="${id}"></i>
                 </span>
             </div>
             <div class="note-body">
@@ -72,5 +74,24 @@ export default class NoteView{
 
             noteItems.innerHTML += html;
         }
+
+        const noteListItem = this.root.querySelectorAll(".note-list-item");
+        noteListItem.forEach(item =>{
+            item.addEventListener("click" , ()=>{
+                this.onNoteSelect(item.dataset.note);
+            });
+        });
+
+        const trashIcon = this.root.querySelectorAll(".fa-trash");
+
+        trashIcon.forEach(trash =>{
+            trash.addEventListener("click" , (e)=>{
+              //how to prevent parent event to child in javascript
+              e.stopPropagation();
+              this.onNoteDelete(e.target.dataset.note);
+            })
+        });
     }
+
+    
 }

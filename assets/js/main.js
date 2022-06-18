@@ -10,6 +10,12 @@ const view = new NoteView(root , {
     onNoteEdit : (newTitle , newBody)=>{
         console.log(newTitle , newBody)
     },
+    onNoteSelect : (noteId)=>{
+        console.log(noteId)
+    },
+    onNoteDelete(noteId){
+        console.log(noteId)
+    }
 });
 
 view.updateNote(NoteApi.getAllNotes())
