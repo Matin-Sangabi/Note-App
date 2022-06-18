@@ -29,10 +29,13 @@ const notes = [
 
 class NoteApi {
     static getAllNotes(){
-        
+        const AllNotes = notes || [];
+        return AllNotes.sort((a , b)=>{
+            return new Date(a.updated) > new Date(b.updated) ? -1 : 1;
+        });
     }
     static saveNote(){
-
+        
     }
     static deleteNotes(){
 
