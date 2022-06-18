@@ -134,7 +134,14 @@ body{
     outline: 2px solid var(--bg-violet-400);
     outline-offset: 3px;
 }
-
+.alert-note{
+    padding: 1rem;
+    background-color: var(--bg-rose-500);
+    color: var(--bg-slate-50);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 17px;
+}
 /*----------main-content-----------*/
 
 .main-content{

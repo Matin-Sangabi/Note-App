@@ -1,15 +1,15 @@
-export default class NoteView{
-    constructor(root , handlres){
-        this.root = root;
+export default class NoteView {
+  constructor(root, handlres) {
+    this.root = root;
 
-        //get handlres
-        const {onNoteAdd , onNoteEdit , onNoteSelect , onNoteDelete} = handlres;
-        this.onNoteAdd = onNoteAdd;
-        this.onNoteEdit = onNoteEdit;
-        this.onNoteSelect = onNoteSelect;
-        this.onNoteDelete = onNoteDelete;
+    //get handlres
+    const { onNoteAdd, onNoteEdit, onNoteSelect, onNoteDelete } = handlres;
+    this.onNoteAdd = onNoteAdd;
+    this.onNoteEdit = onNoteEdit;
+    this.onNoteSelect = onNoteSelect;
+    this.onNoteDelete = onNoteDelete;
 
-        root.innerHTML = `<div class="sidebar">
+    root.innerHTML = `<div class="sidebar">
             <div class="sidebar-logo">
                 Note App
             </div>
@@ -21,31 +21,31 @@ export default class NoteView{
             <input type="text" placeholder="note-title" class="insert-note-title">
             <textarea class="insert-note-body" placeholder="note-body ..."></textarea>
         </div> `;
+    
+    const addNoteBtn = this.root.querySelector(".add-note");
+    const noteTitle = this.root.querySelector(".insert-note-title");
+    const noteBody = this.root.querySelector(".insert-note-body");
 
-        const addNoteBtn = this.root.querySelector(".add-note");
-        const noteTitle = this.root.querySelector(".insert-note-title");
-        const noteBody = this.root.querySelector(".insert-note-body");
+    addNoteBtn.addEventListener("click", () => {
+      this.onNoteAdd();
+    });
 
-        addNoteBtn.addEventListener("click" , ()=>{
-            this.onNoteAdd();
-        });
+    [noteTitle, noteBody].forEach((insert) => {
+      insert.addEventListener("blur", () => {
+        const newTitle = noteTitle.value.trim();
+        const newBody = noteBody.value.trim();
 
-        [noteTitle , noteBody].forEach(insert => {
-            insert.addEventListener("blur" , ()=>{
-                const newTitle = noteTitle.value.trim();
-                const newBody = noteBody.value.trim();
+        this.onNoteEdit(newTitle, newBody);
+      });
+    });
 
-                this.onNoteEdit(newTitle , newBody);
-            });
-        });
+    this.updateVisibilityNote(false);
+  }
 
-        this.updateVisibilityNote(false);
-    }
-
-    _createNoteElement(id , title , body , updated){
-        const MAX_TITLE_LENGTH = 15;
-        const MAX_BODY_LENGTH = 40;
-        return `
+  _createNoteElement(id, title, body, updated) {
+    const MAX_TITLE_LENGTH = 15;
+    const MAX_BODY_LENGTH = 40;
+    return `
         <li class="note-list-item" data-note = "${id}">
             <div class="note-title">
                 ${title.substring(0, MAX_TITLE_LENGTH)}
@@ -59,59 +59,69 @@ export default class NoteView{
                 ${body.length > MAX_BODY_LENGTH ? "..." : ""}
             </div>
             <div class="note-updated">
-                ${new Date(updated).toLocaleString("en" , {dateStyle : "full" , timeStyle:"short"})}
+                ${new Date(updated).toLocaleString("en", {
+                  dateStyle: "full",
+                  timeStyle: "short",
+                })}
             </div>
             </li>
         `;
+  }
+
+  updateNote(notes) {
+    const noteItems = this.root.querySelector(".note-items");
+
+    noteItems.innerHTML = "";
+
+    for (const note of notes) {
+      const { id, title, body, updated } = note;
+      const html = this._createNoteElement(id, title, body, updated);
+
+      noteItems.innerHTML += html;
     }
 
-    updateNote(notes){
-        const noteItems = this.root.querySelector(".note-items");
+    const noteListItem = this.root.querySelectorAll(".note-list-item");
+    noteListItem.forEach((item) => {
+      item.addEventListener("click", () => {
+        this.onNoteSelect(item.dataset.note);
+      });
+    });
 
-        noteItems.innerHTML = "";
+    const trashIcon = this.root.querySelectorAll(".fa-trash");
 
-        for(const note of notes){
-            const {id , title , body , updated} = note;
-            const html = this._createNoteElement(id , title , body , updated);
+    trashIcon.forEach((trash) => {
+      trash.addEventListener("click", (e) => {
+        //how to prevent parent event to child in javascript
+        e.stopPropagation();
+        this.onNoteDelete(e.target.dataset.note);
+      });
+    });
+  }
 
-            noteItems.innerHTML += html;
-        }
+  updateActiveNote(note) {
+    this.root.querySelector(".insert-note-title").value = note.title;
+    this.root.querySelector(".insert-note-body").value = note.body;
+    this.root.querySelectorAll(".note-list-item").forEach((item) => {
+      item.classList.remove("note-list-item-selected");
+    });
 
-        const noteListItem = this.root.querySelectorAll(".note-list-item");
-        noteListItem.forEach(item =>{
-            item.addEventListener("click" , ()=>{
-                this.onNoteSelect(item.dataset.note);
-            });
-        });
+    this.root
+      .querySelector(`.note-list-item[data-note = "${note.id}"]`)
+      .classList.add("note-list-item-selected");
+  }
 
-        const trashIcon = this.root.querySelectorAll(".fa-trash");
+  updateVisibilityNote(visible) {
+    this.root.querySelector(".main-content").style.visibility = visible
+      ? "visible"
+      : "hidden";
+  }
 
-        trashIcon.forEach(trash =>{
-            trash.addEventListener("click" , (e)=>{
-              //how to prevent parent event to child in javascript
-              e.stopPropagation();
-              this.onNoteDelete(e.target.dataset.note);
-            })
-        });
-    }
-
-    updateActiveNote(note){
-        if(note){
-            this.root.querySelector(".insert-note-title").value = note.title;
-            this.root.querySelector(".insert-note-body").value = note.body;
-            this.root.querySelectorAll(".note-list-item").forEach((item) => {
-              item.classList.remove("note-list-item-selected");
-            });
-
-            this.root
-              .querySelector(`.note-list-item[data-note = "${note.id}"]`)
-              .classList.add("note-list-item-selected");
-        }
-
-        
-    }
-
-    updateVisibilityNote(visible){
-        this.root.querySelector('.main-content').style.visibility = visible ? "visible" : "hidden";
-    }
+  updateAlertNote(){
+    const items = this.root.querySelector(".note-items");
+   items.innerHTML =  `
+        <li class="alert-note">
+            please insert new note
+        </li>
+    `;
+  }
 }
