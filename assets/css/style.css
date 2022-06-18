@@ -73,7 +73,15 @@ body{
     color: var(--bg-gray-100);
     cursor: pointer;
 }
+.note-list-item-selected{
+    background-color: var(--bg-gray-400);
+    color: var(--bg-gray-800);
+    border-radius: 10px;
+}
 
+.note-list-item-selected .note-updated{
+    color: var(--bg-gray-700);
+}
 .note-title{
     font-size: 18px;
     font-weight: bold;
@@ -98,11 +106,42 @@ body{
     cursor: pointer;
     background: var(--bg-violet-400);
     color: var(--bg-slate-50);
-    transition:all 0.5s ease-in-out ;
+    transition:all 0.3s ease-in-out ;
 }
 
 .add-note:hover ,.add-note:focus{
     border: none;
     outline: 2px solid var(--bg-violet-400);
     outline-offset: 3px;
-} 
+}
+
+/*----------main-content-----------*/
+
+.main-content{
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+}
+
+.insert-note-title , .insert-note-body{
+    padding: 1rem;
+    border: 1px solid var(--bg-violet-400);
+    outline: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.3 ease-in-out;
+}
+.insert-note-body{
+    resize: none;
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.insert-note-body:focus ,
+.insert-note-title:focus{
+    outline: 2px solid var(--bg-violet-400);
+}
