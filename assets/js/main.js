@@ -11,3 +11,5 @@ const view = new NoteView(root , {
         console.log(newTitle , newBody)
     },
 });
+
+view.updateNote(NoteApi.getAllNotes())

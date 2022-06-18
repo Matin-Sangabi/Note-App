@@ -37,4 +37,37 @@ export default class NoteView{
             });
         });
     }
+
+    _createNoteElement(id , title , body , updated){
+        const MAX_TITLE_LENGTH = 15;
+        const MAX_BODY_LENGTH = 40;
+        return `
+        <li class="note-list-item note" data-note = "${id}">
+            <div class="note-title">
+                ${title.substring(0, MAX_TITLE_LENGTH)}
+                ${title.length > MAX_TITLE_LENGTH ? "..." : ""}
+            </div>
+            <div class="note-body">
+                ${body.substring(0, MAX_BODY_LENGTH)}
+                ${body.length > MAX_BODY_LENGTH ? "..." : ""}
+            </div>
+            <div class="note-updated">
+                ${new Date(updated).toLocaleString("en" , {dateStyle : "full" , timeStyle:"short"})}
+            </div>
+            </li>
+        `;
+    }
+
+    updateNote(notes){
+        const noteItems = this.root.querySelector(".note-items");
+
+        noteItems.innerHTML = "";
+
+        for(const note of notes){
+            const {id , title , body , updated} = note;
+            const html = this._createNoteElement(id , title , body , updated);
+
+            noteItems.innerHTML += html;
+        }
+    }
 }

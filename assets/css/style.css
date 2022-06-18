@@ -65,6 +65,9 @@ body{
     overflow-y: auto;
 }
 
+.note-items::-webkit-scrollbar{
+    display: none;
+}
 .note-list-item{
     display: flex;
     flex-direction: column;
