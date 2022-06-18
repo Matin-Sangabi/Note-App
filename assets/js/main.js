@@ -1,43 +1,44 @@
 // smple notes
 
 const notes = [
-  {
-    id: 1,
-    title: "first notes",
-    body: "this is first notes",
-    updated: "2022-06-18T17:15:29.310Z",
-  },
-  {
-    id: 2,
-    title: "second notes",
-    body: "this is second notes",
-    updated: "2021-06-18T17:15:29.310Z",
-  },
-  {
-    id: 3,
-    title: "Third notes",
-    body: "this is Third notes",
-    updated: "2021-12-18T17:15:29.310Z",
-  },
-  {
-    id: 4,
-    title: "fourth notes",
-    body: "this is fourth notes",
-    updated: "2021-01-18T17:15:29.310Z",
-  },
+  
 ];
 
 class NoteApi {
     static getAllNotes(){
-        const AllNotes = notes || [];
+        const AllNotes = JSON.parse(localStorage.getItem("notes-app")) || [];
         return AllNotes.sort((a , b)=>{
             return new Date(a.updated) > new Date(b.updated) ? -1 : 1;
         });
     }
-    static saveNote(){
-        
-    }
-    static deleteNotes(){
+    static saveNote(noteToSave){
+        const notes = NoteApi.getAllNotes();
+        // check the notes existed or not 
+        const existed = notes.find(n=> n.id == noteToSave.id);
+
+        if(existed){
+            existed.title = noteToSave.title;
+            existed.body = noteToSave.body;
+            existed.updated = new Date().toISOString();
+        }
+        else{
+            noteToSave.id = new Date().getTime();
+            noteToSave.updated = new Date().toDateString();
+
+            notes.push(noteToSave);
+        }
+
+        localStorage.setItem("notes-app" , JSON.stringify(notes));
+
 
     }
+    static deleteNotes(id){
+        const deleteNotes = NoteApi.getAllNotes();
+        const filterNote = deleteNotes.filter(n => n.id != id);
+
+        localStorage.setItem("notes-app" , JSON.stringify(filterNote));
+    }
 }
+
+
+
